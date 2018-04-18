@@ -1,0 +1,24 @@
+
+registry:
+  image: registry:2
+  container_name: registry
+  restart: always
+  ports:
+    - 127.0.0.1:5000:5000
+  environment:
+    REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
+  volumes:
+    - /data:/data
+
+
+nginx:
+  image: nginx:1.11.9-alpine
+  container_name: nginx
+  restart: always
+  ports:
+    - 80:80
+    - 443:443
+  volumes:
+    - ./nginx/:/etc/nginx/conf.d
+  links:
+    - registry:registry
